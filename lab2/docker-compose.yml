@@ -1,0 +1,12 @@
+version: "3.8"
+
+services:
+  training-api:
+    build:
+      context: ./training-api
+    ports:
+      - "5002:5000"
+    environment:
+      - MODEL_REPO =/src/usr/models2
+    volumes:
+      - notebooks:/home/i_c_j_jacobs/models:/src/usr/models2
