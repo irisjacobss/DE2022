@@ -6,25 +6,39 @@ services:
       context: ./training-api
     ports:
       - "5002:5000"
+    networks:
+      - network-b
     environment:
       - MODEL_REPO =/src/usr/models2
     volumes:
       - notebooks:/home/i_c_j_jacobs/models:/src/usr/models2
   prediction-api:
     build:
-      context./prediction-api
+      context: prediction-api
+    container_name: prediction-api
+    depends_on:
+      - training_api
     ports:
       - "5001:5000"
+    networks:
+      - network-a
+      - network-b
     environment:
       - MODEL_REPO=/usr/src/myapp
     volumes:
       - notebooks:/home/i_c_j_jacobs/models:/src/usr/models2
   prediction-ui:
     build:
-      context./prediction-ui
+      context: prediction-ui
+    container_name: prediction-ui
+    depends_on:
+      - prediction_api
     ports:
       - "5000:5000"
+    networks:
+      - network-a
     environment:
       - PREDICTOR_API=http://predictor-api-server:5000/diabetes_predictor
-    volumes:
-      - notebooks:/home/i_c_j_jacobs/models:/src/usr/models2
+
+  networks:
+    
