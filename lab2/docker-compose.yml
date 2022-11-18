@@ -1,13 +1,16 @@
+
 version: "3.8"
 
 services:
   training-api:
     build:
       context: ./training-api
+
     ports:
       - "5002:5000"
     networks:
       - network-b
+
     environment:
       - MODEL_REPO =/src/usr/models2
     volumes:
@@ -24,6 +27,7 @@ services:
       - network-a
       - network-b
     environment:
+
       - MODEL_REPO=/usr/src/myapp
     volumes:
       - notebooks:/home/i_c_j_jacobs/models:/src/usr/models2
@@ -31,6 +35,7 @@ services:
     build:
       context: prediction-ui
     container_name: prediction-ui
+
     depends_on:
       - prediction_api
     ports:
@@ -38,7 +43,8 @@ services:
     networks:
       - network-a
     environment:
+
       - PREDICTOR_API=http://predictor-api-server:5000/diabetes_predictor
 
   networks:
-    
+
